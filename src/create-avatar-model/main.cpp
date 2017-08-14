@@ -2,7 +2,7 @@
 #include "utils/command-line-arguments.hpp"
 #include "utils/points.hpp"
 #include "avatar/myAvatar.hpp"
-
+#include <iostream>
 #include <opencv2/highgui/highgui.hpp>
 
 void

@@ -19,6 +19,7 @@
 
 #include <tracker/ShapePredictor.hpp>
 #include <tracker/CLM.hpp>
+#include "opencv2/imgproc.hpp"
 #define db at<double>
 #define it at<int>
 using namespace FACETRACKER;

@@ -23,8 +23,10 @@
 #include <opencv/highgui.h>
 #include <iostream>
 #include <fstream>
-
+#include "opencv2/imgproc.hpp"
+#include <opencv2/highgui/highgui.hpp>
 #include <test/command-line-options.hpp>
+#include <limits>
 
 #define db at<double>
 #define it at<int>

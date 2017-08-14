@@ -22,6 +22,7 @@
 #include <avatar/myAvatar.hpp>
 #include <tracker/CLM.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include "opencv2/imgproc.hpp"
 #define it at<int>
 #define db at<double>
 using namespace AVATAR;

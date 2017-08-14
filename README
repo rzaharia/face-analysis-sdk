@@ -1,12 +1,17 @@
-Welcome to the CSIRO Face Analysis SDK. Documentation for the SDK can
-be found in doc/documentation.html.
+# Face tracking functional software for Linux
 
-All code in this SDK is provided according to the license found in
-LICENSE.
+#### compiles correctly, but GUI is still in trouble with GNUStep
 
-If you use the CSIRO Face Analysis SDK in any publications, we ask
-that you reference our works.
+### Steps:
+```bash
+mkdir build
+cd build
+cmake -DOpenCV_PREFIX=/usr/local -DFFMPEG=/usr/local/bin/ffmpeg ..
+make
+```
 
+
+-----------------------
 The face tracking component is based on the publication: 
 J. Saragih, S. Lucey and J. Cohn, "Deformable Model Fitting by
 Regularized Landmark Mean-Shift", IJCV 2011.

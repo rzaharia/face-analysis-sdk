@@ -11,7 +11,7 @@ if(NOT DEFINED OpenCV_PREFIX)
 endif()
 
 # Configurable options
-OPTION(WITH_GUI "Build the GUI" OFF)
+OPTION(WITH_GUI "Build the GUI" ON)
 
 # Third party libraries
 find_package(OpenCV REQUIRED core highgui imgproc objdetect
@@ -23,6 +23,8 @@ IF(APPLE)
 find_library(FOUNDATION Foundation)
 SET(EXTRA_LIBS ${FOUNDATION})
 ENDIF()
+
+SET(EXTRA_LIBS /usr/lib/libgnustep-base.so.1.24.0 /usr/lib/x86_64-linux-gnu/libobjc.so.4.0.0)
 
 # Third party programs
 if(NOT DEFINED FFMPEG)
@@ -51,6 +53,7 @@ SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -O0 -g  -Wall -Wextra -DDEBUG")
 
 SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -O3  -Wall -Wextra")
 SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Wall -O3  -Wextra")
+
 
 SET(LIBS ${OpenCV_LIBS} ${EXTRA_LIBS})
 

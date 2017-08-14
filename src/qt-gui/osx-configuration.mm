@@ -17,6 +17,7 @@
 
 // Copyright CSIRO 2013
 
+#include <Foundation/NSValue.h>
 #include <Foundation/NSBundle.h>
 #include <Foundation/NSString.h>
 #include <Foundation/NSPathUtilities.h>

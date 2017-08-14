@@ -2,7 +2,8 @@
 #include "utils/command-line-arguments.hpp"
 #include "utils/helpers.hpp"
 #include "tracker/FaceTracker.hpp"
-
+#include <limits>
+#include <iostream>
 #include <opencv2/highgui/highgui.hpp>
 
 void

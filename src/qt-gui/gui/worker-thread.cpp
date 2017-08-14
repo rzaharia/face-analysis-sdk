@@ -24,8 +24,7 @@
 #include <stdexcept>
 #include <numeric>
 
-#include "avatar/avatar.hpp"
-#include "gui/avatar.hpp"
+#include "avatar.hpp"
 #include "configuration.hpp"
 
 using namespace CI2CVGui;

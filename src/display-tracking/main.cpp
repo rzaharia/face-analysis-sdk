@@ -22,6 +22,7 @@
 #include "utils/points.hpp"
 #include <iostream>
 #include <opencv2/highgui/highgui.hpp>
+#include "opencv2/imgproc.hpp"
 
 void
 print_usage()

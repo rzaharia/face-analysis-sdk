@@ -24,6 +24,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <functional>
 #include <iostream>
+#include <limits>
 
 bool
 nan_p(double value)

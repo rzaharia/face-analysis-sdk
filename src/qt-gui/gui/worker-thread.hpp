@@ -22,7 +22,8 @@
 
 #include "controllers.hpp"
 #include "tracker/FaceTracker.hpp"
-
+#include "opencv2/imgproc.hpp"
+#include "opencv2/opencv.hpp"
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 #include <QtCore/QThread>

@@ -35,8 +35,17 @@ SET(MOC_HEADERS
 
 QT4_WRAP_CPP(MOC_SRCS ${MOC_HEADERS})
 
+#
+#SET(APFLAGS "-objc++ -I `gnustep-config --variable=GNUSTEP_SYSTEM_HEADERS` -L -lgnustep-base -lpthread -lobjc  `gnustep-config --variable=GNUSTEP_SYSTEM_LIBRARIES` -fconstant-string-class=NSConstantString")
+
+#SET(APFLAGS "-objc++ `gnustep-config --objc-flags -lgnustep-base` -L -lobjc -lgnustep-base  -lpthread")
+
+#SET(APFLAGS "-objc++ `gnustep-config --objc-flags -lgnustep-base` `gnustep-config --gui-libs`")
+
+SET(APFLAGS "-objc++ -DGNUSTEP -DGNUSTEP_BASE_LIBRARY=1 -DGNU_RUNTIME=1 -DGNUSTEP_BASE_LIBRARY=1 -fno-strict-aliasing -fexceptions -fobjc-exceptions -D_NATIVE_OBJC_EXCEPTIONS -pthread -fPIC -Wall -DGSWARN -DGSDIAGNOSE -Wno-import -g  -fgnu-runtime -fconstant-string-class=NSConstantString -fexec-charset=UTF-8 -I. -I/home/snisioi/GNUstep/Library/Headers -I/usr/local/include/GNUstep -I/usr/include/GNUstep `gnustep-config --gui-libs`")
+
 INCLUDE_DIRECTORIES(".")
-set_source_files_properties(osx-configuration.mm PROPERTIES COMPILE_FLAGS -ObjC++)
+set_source_files_properties(osx-configuration.mm PROPERTIES COMPILE_FLAGS ${APFLAGS})
 
 
 add_executable(demo-application
