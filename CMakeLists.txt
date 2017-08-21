@@ -24,6 +24,7 @@ find_library(FOUNDATION Foundation)
 SET(EXTRA_LIBS ${FOUNDATION})
 ENDIF()
 
+# TODO: add a find_lib here
 SET(EXTRA_LIBS /usr/lib/libgnustep-base.so.1.24.0 /usr/lib/x86_64-linux-gnu/libobjc.so.4.0.0)
 
 # Third party programs
@@ -39,17 +40,22 @@ endif()
 ADD_DEFINITIONS(-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE)
 ADD_DEFINITIONS(-D_WITH_AVATAR_)
 
+
+if(CMAKE_BUILD_TYPE STREQUAL "")
+    set(CMAKE_BUILD_TYPE Debug)
+endif()
+
 # Compiling and linking
 # - type
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configs" FORCE)
 if(DEFINED CMAKE_BUILD_TYPE AND CMAKE_VERSION VERSION_GREATER "2.8")
    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS ${CMAKE_CONFIGURATION_TYPES})
 endif()
-SET(CMAKE_BUILD_TYPE Release CACHE STRING "")
 
+MESSAGE("Build type: " ${CMAKE_BUILD_TYPE})
 # - flags
 SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -g -O0  -Wall -Wextra -DDEBUG")
-SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -O0 -g  -Wall -Wextra -DDEBUG")
+SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -O0 -g  -Wall -Wextra -DDEBUG -std=c++11")
 
 SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -O3  -Wall -Wextra")
 SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Wall -O3  -Wextra")

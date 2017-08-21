@@ -17,7 +17,7 @@
 
 // Copyright CSIRO 2013
 
-#include <tracker/FaceTracker.hpp>
+#include <tracker/myFaceTracker.hpp>
 #ifdef _WITH_AVATAR_
 #include <avatar/Avatar.hpp>
 #endif
@@ -55,14 +55,16 @@ void draw_health(cv::Mat &I,int health)
   cv::putText(I,str,cv::Point(w+h/2+w/20,h+h/2),
 	      CV_FONT_HERSHEY_SIMPLEX,h*0.045,CV_RGB(0,0,255),2); return;
 }
+
 //==============================================================================
 int main(int argc, char *argv[])
 {
+
   cv::Mat con = FACETRACKER::IO::LoadCon("src/tracker/resources/face.con");
   FACETRACKER::FaceTrackerParams* p = FACETRACKER::LoadFaceTrackerParams("src/tracker/resources/face.mytrackerparams.binary");
-  FACETRACKER::FaceTracker* tracker = 
-    FACETRACKER::LoadFaceTracker("src/tracker/resources/face.mytracker.binary");
-  // FACETRACKER::LoadFaceTracker("test_data/face.mytracker.binary.noPRA");
+  FACETRACKER::FaceTracker* tracker =
+   FACETRACKER::LoadFaceTracker("src/tracker/resources/face.mytracker.binary");
+   //FACETRACKER::LoadFaceTracker("src/tracker/resources/face.mytracker.binary.old");
   assert((p != NULL) && "FaceTracker parameters can't be NULL - Check file is correct");
   assert((tracker != NULL) && "tracker not initialised - check file is OK");
 
@@ -179,7 +181,7 @@ int main(int argc, char *argv[])
 #ifdef _WITH_AVATAR_
       if(init){
 	cv::Mat aimg = draw(cv::Rect(im.cols,0,im.cols,im.rows));
-	avatar->Animate(aimg,im,tracker->_shape);
+	avatar->Animate(aimg,im,tracker->getShape());
       }
 #endif
     }
@@ -217,7 +219,23 @@ int main(int argc, char *argv[])
     }
 #ifdef _WITH_AVATAR_
     else if(c == int('i')){
-      avatar->Initialise(im,tracker->_shape); init = true;
+
+      /*
+      auto img = tracker->_shape;
+      std::vector<cv::Point_<double> > points;
+      for (int x = 0; x < img.cols; x++)
+         for (int y = 0; y < img.rows; y++)
+            points.push_back(cv::Point(x, y));
+      tracker->_shape.copyTo(points);
+      avatar->Initialise(im, points);
+      cv::Mat a = cv::Mat::ones(10, 1, CV_64FC2);
+       */
+
+      //std::vector<cv::Point_<double> > b;
+      //tracker->_shape.copyTo(b);
+
+      avatar->Initialise(im, tracker->getShape());
+      init = true;
     }
     else if(c == int('p')){
       if(avatar->numberOfAvatars() > idx+1){

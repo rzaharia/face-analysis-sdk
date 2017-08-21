@@ -178,6 +178,7 @@ int main(int argc, char** argv)
     FACETRACKER::LoadFaceTracker(face_tracker_file.c_str());
   AVATAR::Avatar* avatar = 
     AVATAR::LoadAvatar(avatar_file.c_str());
+  avatar->setAvatar(2);
   assert((p != NULL) && (tracker != NULL) && (avatar != NULL));
   cv::Mat im,draw; cvNamedWindow("test"); 
   cv::VideoCapture camera;
@@ -272,15 +273,15 @@ int main(int argc, char** argv)
     //animate
     if(!failed){
       if (initialise_user_on_first_frame && !init) {
-	avatar->Initialise(im,tracker->_shape); 
+	avatar->Initialise(im,tracker->getShape());
 	init = true;
       }
       draw_health(uimg,std::max(0,health)); 
-      draw_shape(uimg,tracker->_shape,con);
+      draw_shape(uimg,tracker->_shape, con);
       int64 animate1 = cv::getTickCount(); 
       if(init){
 	cv::Mat aimg = draw(cv::Rect(im.cols,0,im.cols,im.rows));
-	avatar->Animate(aimg,im,tracker->_shape);
+	avatar->Animate(aimg,im,tracker->getShape());
       }
       int64 animate2 = cv::getTickCount();
       animate_time += animate2-animate1;
@@ -348,7 +349,7 @@ int main(int argc, char** argv)
     if(c == 27)break; 
     else if(c == int('d'))tracker->Reset();
     else if(c == int('i')){
-      avatar->Initialise(im,tracker->_shape); init = true;
+      avatar->Initialise(im,tracker->getShape()); init = true;
     }
     input_frame_last_captured += 1.0/(1000.0*cv::getTickFrequency());
     output_frame_last_output += 1.0/(1000.0*cv::getTickFrequency());
