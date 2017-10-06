@@ -1,6 +1,6 @@
 # Face tracking functional software for Linux
 
-#### compiles correctly, but GUI is still in trouble with GNUStep
+- compiles correctly and runs with the latest version of open cv, gcc 6.3 on Ubuntu 17.04
 
 ### Build script:
 ```bash
