@@ -11,7 +11,8 @@ if(NOT DEFINED OpenCV_PREFIX)
 endif()
 
 # Configurable options
-OPTION(WITH_GUI "Build the GUI" ON)
+# GUI has not been tested
+OPTION(WITH_GUI "Build the GUI" OFF)
 
 # Third party libraries
 find_package(OpenCV REQUIRED core highgui imgproc objdetect
@@ -25,7 +26,7 @@ SET(EXTRA_LIBS ${FOUNDATION})
 ENDIF()
 
 # TODO: add a find_lib here
-SET(EXTRA_LIBS /usr/lib/libgnustep-base.so.1.24.0 /usr/lib/x86_64-linux-gnu/libobjc.so.4.0.0)
+SET(EXTRA_LIBS /usr/lib/libgnustep-base.so /usr/lib/x86_64-linux-gnu/libobjc.so.4)
 
 # Third party programs
 if(NOT DEFINED FFMPEG)
@@ -60,8 +61,7 @@ SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -O0 -g  -Wall -Wextra -DDEBUG -std
 SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -O3  -Wall -Wextra")
 SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Wall -O3  -Wextra")
 
-
-SET(LIBS ${OpenCV_LIBS} ${EXTRA_LIBS})
+SET(LIBS opencv_videoio opencv_imgcodecs ${OpenCV_LIBS} ${EXTRA_LIBS})
 
 # Build paths
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/lib")
