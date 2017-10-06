@@ -1,6 +1,7 @@
 # Face tracking functional software for Linux
 
 - compiles correctly and runs with the latest version of open cv, gcc 6.3 on Ubuntu 17.04
+- no GUI
 
 ### Build script:
 ```bash
