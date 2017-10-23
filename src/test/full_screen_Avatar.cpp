@@ -236,7 +236,7 @@ int main(int argc, char *argv[])
 
     //tracker->_timer.write_fps(uimg);
     //cv::Mat resizedImage;
-    //cv::resize(draw, resizedImage, cv::Size(1920, 1080));
+    //cv::resize(draw, resizedImage, cv::Size(WIDTH, HEIGHT));
     //cv::imshow(WINDOW_NAME, resizedImage);
 
     cv::imshow(WINDOW_NAME, draw);

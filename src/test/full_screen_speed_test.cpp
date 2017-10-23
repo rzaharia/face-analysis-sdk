@@ -197,7 +197,7 @@ int main(int argc, char **argv)
     avatar->setAvatar(3);
     assert((p != NULL) && (tracker != NULL) && (avatar != NULL));
     cv::Mat im, draw;
-    cvNamedWindow("test");
+    cvNamedWindow(WINDOW_NAME);
     cv::VideoCapture camera;
     if (camera_index == -1)
     {
@@ -260,7 +260,7 @@ int main(int argc, char **argv)
                 std::cout << "Dropping " << number_of_dropped_frames << " input frames" << std::endl;
             for (int dropped_frame_index = 0; dropped_frame_index < number_of_dropped_frames; dropped_frame_index++)
             {
-                camera >> im;
+               camera >> im;
                 input_frame_index++;
             }
 
@@ -318,7 +318,8 @@ int main(int argc, char **argv)
                 avatar->Initialise(im, tracker->getShape());
                 init = true;
             }
-            //draw_health(uimg, std::max(0, health));
+        }
+           //draw_health(uimg, std::max(0, health));
             //draw_shape(uimg, tracker->_shape, con);
             int64 animate1 = cv::getTickCount();
             if (init)
@@ -328,7 +329,7 @@ int main(int argc, char **argv)
             }
             int64 animate2 = cv::getTickCount();
             animate_time += animate2 - animate1;
-        }
+                    
         if (!hide_avatar_thumbnail)
         {
             cv::Mat timg = draw(cv::Rect(im.cols - thumb.cols, im.rows - thumb.rows,
@@ -359,7 +360,10 @@ int main(int argc, char **argv)
         cv::putText(draw, animate_text, cv::Point(im.cols + 10, 80),
                     CV_FONT_HERSHEY_SIMPLEX, 0.5, CV_RGB(255, 255, 255));
 
-        cv::imshow("test", draw);
+        cv::Mat resizedImage;
+        cv::resize(draw, resizedImage, cv::Size(WIDTH, HEIGHT));
+        cv::imshow(WINDOW_NAME, resizedImage);                    
+        //cv::imshow(WINDOW_NAME, draw);
 
         if (output_images_p)
         {
