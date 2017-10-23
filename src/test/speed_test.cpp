@@ -178,7 +178,7 @@ int main(int argc, char** argv)
     FACETRACKER::LoadFaceTracker(face_tracker_file.c_str());
   AVATAR::Avatar* avatar = 
     AVATAR::LoadAvatar(avatar_file.c_str());
-  avatar->setAvatar(2);
+  avatar->setAvatar(3);
   assert((p != NULL) && (tracker != NULL) && (avatar != NULL));
   cv::Mat im,draw; cvNamedWindow("test"); 
   cv::VideoCapture camera;
@@ -286,7 +286,7 @@ int main(int argc, char** argv)
       int64 animate2 = cv::getTickCount();
       animate_time += animate2-animate1;
     }
-    if (!hide_avatar_thumbnail) {
+    if (hide_avatar_thumbnail) {
       cv::Mat timg = draw(cv::Rect(im.cols-thumb.cols,im.rows-thumb.rows,
 				   thumb.cols,thumb.rows));
       thumb.copyTo(timg); 

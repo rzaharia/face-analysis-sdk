@@ -1209,9 +1209,9 @@ myAvatarParams::myAvatarParams()
   animate_rigid = true;
   animate_exprs = true;
   animate_textr = true;
-  animate_eyes = true;
+  animate_eyes = false;
   avatar_shape = true;
-  oral_cavity = true;
+  oral_cavity = false;
   alpha = 0.001;
 }
 //==============================================================================

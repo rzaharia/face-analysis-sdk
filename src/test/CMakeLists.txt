@@ -5,6 +5,11 @@ TARGET_LINK_LIBRARIES(test_avatar ${LIBS} clmTracker)
 
 TARGET_LINK_LIBRARIES(test_avatar avatarAnim)
 
+ADD_EXECUTABLE(full_screen_avatar full_screen_Avatar.cpp)
+TARGET_LINK_LIBRARIES(full_screen_avatar ${LIBS} clmTracker)
+
+TARGET_LINK_LIBRARIES(full_screen_avatar avatarAnim)
+
 ADD_EXECUTABLE(speed_test speed_test.cpp command-line-options.cpp)
 TARGET_LINK_LIBRARIES(speed_test ${LIBS} clmTracker avatarAnim)
 
