@@ -18,9 +18,7 @@
 // Copyright CSIRO 2013
 
 #include <tracker/myFaceTracker.hpp>
-#ifdef _WITH_AVATAR_
 #include <avatar/Avatar.hpp>
-#endif
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 #include <fstream>
@@ -28,6 +26,10 @@
 #include <ctime>
 #define db at<double>
 #define it at<int>
+#define WIDTH 1920
+#define HEIGHT 1080
+#define WINDOW_NAME "..."
+
 //=============================================================================
 void draw_shape(cv::Mat &image, cv::Mat &shape, cv::Mat &con)
 {
@@ -84,18 +86,20 @@ int main(int argc, char *argv[])
   cv::FileStorage fs;
   int waitTime = 0;
 
-#ifdef _WITH_AVATAR_
+
   AVATAR::Avatar *avatar =
       AVATAR::LoadAvatar("src/avatar/resources/CI2CV.avatar.binary");
   //AVATAR::LoadAvatar("test_data/kabuki2.avatar.binary");
   assert(avatar != NULL);
-  int idx = 0;
+  auto last_one = avatar->numberOfAvatars() - 1;
+  avatar->setAvatar(last_one);
+  uint idx = last_one;
   cv::Mat thumb = avatar->Thumbnail(idx);
   bool init = false;
-#endif
+
 
   cv::Mat im, draw;
-  cvNamedWindow("test");
+  cvNamedWindow(WINDOW_NAME);
   cv::VideoCapture camera;
   std::cout << "Usage: " << argv[0] << " [video] [-o]" << std::endl
             << "-o will output an XML file with point locations" << std::endl;
@@ -109,8 +113,8 @@ int main(int argc, char *argv[])
   if (argc == 1)
   {
     camera.open(0);
-    camera.set(CV_CAP_PROP_FRAME_WIDTH, 1400);
-    camera.set(CV_CAP_PROP_FRAME_HEIGHT, 1200);
+    camera.set(CV_CAP_PROP_FRAME_WIDTH, WIDTH);
+    camera.set(CV_CAP_PROP_FRAME_HEIGHT, HEIGHT);
   }
 
   if (argc > 1)
@@ -126,8 +130,8 @@ int main(int argc, char *argv[])
       outputFile = fname;
 
       camera.open(0);
-      camera.set(CV_CAP_PROP_FRAME_WIDTH, 640);
-      camera.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
+      camera.set(CV_CAP_PROP_FRAME_WIDTH, WIDTH);
+      camera.set(CV_CAP_PROP_FRAME_HEIGHT, HEIGHT);
     }
     else
     {
@@ -137,8 +141,8 @@ int main(int argc, char *argv[])
         std::cerr << "Unable to open video file " << argv[1]
                   << ", opening camera" << std::endl;
         camera.open(0);
-        camera.set(CV_CAP_PROP_FRAME_WIDTH, 640);
-        camera.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
+        camera.set(CV_CAP_PROP_FRAME_WIDTH, WIDTH);
+        camera.set(CV_CAP_PROP_FRAME_HEIGHT, HEIGHT);
       }
       else
         outputFile = std::string(argv[1]) + "_output.xml";
@@ -185,31 +189,27 @@ int main(int argc, char *argv[])
       break;
 
     cv::flip(im, im, 1);
-    //im = im.t();
-
+    
     if (draw.rows != im.rows)
     {
       int extend = 1;
-#ifdef _WITH_AVATAR_
-      extend = 2;
-#endif
+      //extend = 2;
       draw.create(im.rows, im.cols * extend, CV_8UC3);
     }
     draw = cv::Scalar(0);
-    int health = tracker->Track(im, p) + 1;
+    int health = tracker->Track(im, p);
     cv::Mat uimg = draw(cv::Rect(0, 0, im.cols, im.rows));
-    im.copyTo(uimg);
+    //im.copyTo(uimg);
     //draw_health(uimg, health);
     if (health >= 0)
     {
-      draw_shape(uimg, tracker->_shape, con);
-#ifdef _WITH_AVATAR_
+        //draw_shape(uimg, tracker->_shape, con);
       if (init)
       {
-        cv::Mat aimg = draw(cv::Rect(im.cols, 0, im.cols, im.rows));
+        //cv::Mat aimg = draw(cv::Rect(im.cols, 0, im.cols, im.rows));
+        cv::Mat aimg = draw(cv::Rect(0, 0, im.cols, im.rows));
         avatar->Animate(aimg, im, tracker->getShape());
       }
-#endif
     }
 
     if (saveData)
@@ -229,14 +229,17 @@ int main(int argc, char *argv[])
 
     frameCount++;
 
-#ifdef _WITH_AVATAR_
+
     cv::Mat timg = draw(cv::Rect(im.cols - thumb.cols, im.rows - thumb.rows,
                                  thumb.cols, thumb.rows));
-    thumb.copyTo(timg);
-#endif
+    //thumb.copyTo(timg);
 
-    tracker->_timer.write_fps(uimg);
-    cv::imshow("test", draw);
+    //tracker->_timer.write_fps(uimg);
+    //cv::Mat resizedImage;
+    //cv::resize(draw, resizedImage, cv::Size(1920, 1080));
+    //cv::imshow(WINDOW_NAME, resizedImage);
+
+    cv::imshow(WINDOW_NAME, draw);
     int c = cvWaitKey(waitTime);
     if (c == 27)
       break;
@@ -249,24 +252,8 @@ int main(int argc, char *argv[])
       else
         waitTime = 0;
     }
-#ifdef _WITH_AVATAR_
     else if (c == int('i'))
     {
-
-      /*
-      auto img = tracker->_shape;
-      std::vector<cv::Point_<double> > points;
-      for (int x = 0; x < img.cols; x++)
-         for (int y = 0; y < img.rows; y++)
-            points.push_back(cv::Point(x, y));
-      tracker->_shape.copyTo(points);
-      avatar->Initialise(im, points);
-      cv::Mat a = cv::Mat::ones(10, 1, CV_64FC2);
-       */
-
-      //std::vector<cv::Point_<double> > b;
-      //tracker->_shape.copyTo(b);
-
       avatar->Initialise(im, tracker->getShape());
       init = true;
     }
@@ -288,7 +275,6 @@ int main(int argc, char *argv[])
         thumb = avatar->Thumbnail(idx);
       }
     }
-#endif
   }
 
   if (saveData)
